@@ -7,12 +7,17 @@ To run the demo application you need:
 
 Python 2.7
 pip install the included requirements.txt
-SQLite3, on Windows: [SQLite 3](https://www.sqlite.org/2019/sqlite-dll-win32-x86-3270200.zip) or use your package manager. Effectively any version should work.
+SQLite3, [SQLite 3](https://www.sqlite.org/), effectively any version should work.
 
 To run the application start it after installing the requirements with:
 
 ```
-set FLASK_APP=demo_app
+On Windows:
+   set FLASK_APP=demo_app
+   
+On Linux:
+   export FLASK_APP=demo_app
+
 flask init-db
 flask run --host=0.0.0.0 --port=8080
 ```
