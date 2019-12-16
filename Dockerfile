@@ -1,4 +1,4 @@
-FROM devel.crfhealth.com:5000/alpine:latest
+FROM alpine:latest
 
 COPY . /app
 WORKDIR /app
