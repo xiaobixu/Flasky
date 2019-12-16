@@ -26,16 +26,19 @@ Alternatively, a Dockerfile is provided.
 
 ## Acceptance Criteria ##
 
-As an end user I can:
+As a UI user I can:
 
 1: Register through web portal
-2: Review my user information from the main view
+
+2: Review my own user information from the main view
 
 
 As an API Consumer I can:
 
 1: Review users registered in system
+
 2: If authenticated I can get personal information of users
+
 3: If authenticated I can update personal information of users
 
 
@@ -47,7 +50,7 @@ The Application exposes a simple API with the following routes:
 |-----------------------|----------|----------------|
 | /api/auth/token       | GET      | Basic          |
 | /api/users            | GET      | Token          |
-| /api/users/<username> | GET, PUT | Token          |
+| /api/users/{username} | GET, PUT | Token          |
 
 ### Headers ###
 
@@ -66,7 +69,7 @@ To receive a token perform basic authentication against `/api/auth/token` using 
 For example:
 
 ```
->>> curl -u dsyed:1234 http://localhost:8080/api/auth/token
+>>> curl -u username:1234 http://localhost:8080/api/auth/token
 {
   "status": "SUCCESS",
   "token": "MzMyNjQyMzAzODMwNjk1Mzg1MDU4OTA3MTEyMDM3MTQ2NDg5Mzg2"
