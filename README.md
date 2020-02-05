@@ -5,7 +5,7 @@
 
 To run the demo application you need:
 
-Python 2.7
+Python 3.7
 pip install the included requirements.txt
 SQLite3, [SQLite 3](https://www.sqlite.org/), effectively any version should work.
 

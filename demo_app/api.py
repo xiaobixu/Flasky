@@ -54,7 +54,7 @@ def token_required(call):
 @login_required
 def create_token():
     username = request.authorization.username
-    token = base64.b64encode(str(random.getrandbits(128)))
+    token = str(base64.b64encode(str(random.getrandbits(128)).encode()), "utf-8")
     get_db().execute("UPDATE user SET token = '{}' WHERE username = '{}'".format(token, username))
     get_db().commit()
     return jsonify({'status': 'SUCCESS',
