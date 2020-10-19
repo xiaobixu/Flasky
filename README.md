@@ -1,4 +1,4 @@
-# CRF Demo web App #
+# Signant Health Demo web App #
 
 ## Installation Instructions ##
 
