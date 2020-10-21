@@ -28,18 +28,16 @@ Alternatively, a Dockerfile is provided.
 
 As a UI user I can:
 
-1: Register through web portal
-
-2: Review my own user information from the main view
+ 1. Register through web portal
+ 2. Review my own user information from the main view
 
 
 As an API Consumer I can:
 
-1: Review users registered in system
-
-2: If authenticated I can get personal information of users
-
-3: If authenticated I can update personal information of users
+ 1. Register new users
+ 2. Review users registered in system
+ 3. If authenticated I can get personal information of users
+ 4. If authenticated I can update personal information of users
 
 
 ## API Brief ##
@@ -50,6 +48,7 @@ The Application exposes a simple API with the following routes:
 |-----------------------|----------|----------------|
 | /api/auth/token       | GET      | Basic          |
 | /api/users            | GET      | Token          |
+| /api/users            | POST     | None           |
 | /api/users/{username} | GET, PUT | Token          |
 
 ### Headers ###

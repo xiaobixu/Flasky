@@ -11,6 +11,7 @@ from demo_app.db import get_db
 
 bp = Blueprint('api', __name__, url_prefix='/api')
 
+
 def login_required(call):
     @functools.wraps(call)
     def wrapped_call(*args, **kwargs):
@@ -33,6 +34,7 @@ def login_required(call):
 
     return wrapped_call
 
+
 def token_required(call):
     @functools.wraps(call)
     def wrapped_call(*args, **kwargs):
@@ -50,6 +52,7 @@ def token_required(call):
 
     return wrapped_call
 
+
 @bp.route('/auth/token', methods=(['GET']))
 @login_required
 def create_token():
@@ -60,7 +63,8 @@ def create_token():
     return jsonify({'status': 'SUCCESS',
                     'token': token}), 200
 
-@bp.route('/users', methods=(['GET']))
+
+@bp.route('/users', methods=(['GET', 'POST']))
 def users():
     """Register a new user.
 
@@ -69,6 +73,9 @@ def users():
     """
     if request.method == 'GET':
         return get_all_users()
+    elif request.method == 'POST':
+        return create_user(request)
+
 
 @bp.route('/users/<username>', methods=(['GET', 'PUT']))
 @token_required
@@ -77,6 +84,7 @@ def username(username):
         return get_specific_user(username)
     if request.method == 'PUT':
         return put_specific_user(username, request)
+
 
 def put_specific_user(username, request):
     allowed_fields = ('firstname', 'lastname', 'phone')
@@ -96,12 +104,14 @@ def put_specific_user(username, request):
     return jsonify({'status': 'SUCCESS',
                     'message': 'Updated'}), 201
 
+
 def get_specific_user(username):
     try:
-        query = get_db().execute("""SELECT firstname, lastname, phone
-                                    FROM user
-                                    WHERE username = '{}'""".format(
-                                        username)).fetchall()
+        query = get_db().execute(
+            """SELECT firstname, lastname, phone
+               FROM user
+               WHERE username = '{}'""".format(username)
+        ).fetchall()
     except:
         return jsonify({'status': 'FAILURE',
                         'message': 'user not found'}), 404
@@ -113,8 +123,8 @@ def get_specific_user(username):
                     'message': 'retrieval succesful',
                     'payload': payload}), 200
 
-def get_all_users():
 
+def get_all_users():
     query = get_db().execute("""SELECT username
                                 FROM user""").fetchall()
     users = []
@@ -122,3 +132,52 @@ def get_all_users():
         users.append(item['username'])
     return jsonify({'status': 'SUCCESS',
                     'payload': users}), 200
+
+
+def create_user(user):
+    try:
+        validated_user = validate_new_user_data(user)
+    except Exception as e:
+        return jsonify({'status': 'FAILURE',
+                        'message': str(e)}), 400
+    print(validated_user)
+    db = get_db()
+    if db.execute(
+        'SELECT id FROM user WHERE username = ?', (validated_user['username'],)
+    ).fetchone() is not None:
+        return jsonify({'status': 'FAILURE',
+                        'message': 'User exists'}), 400
+    db.execute(
+        """INSERT INTO user (username, password, firstname, lastname, phone)
+            VALUES (?, ?, ?, ?, ?)""",
+        (
+            validated_user['username'],
+            generate_password_hash(validated_user['password']),
+            validated_user['firstname'],
+            validated_user['lastname'],
+            validated_user['phone']
+        )
+    )
+    db.commit()
+    return jsonify({'status': 'SUCCESS',
+                    'message': 'Created'}), 201
+
+
+def validate_new_user_data(user):
+    allowed_fields = (
+        'username',
+        'password',
+        'firstname',
+        'lastname',
+        'phone'
+    )
+    if not user.is_json:
+        raise AssertionError('Bad request')
+    user = user.get_json()
+    for key, value in user.items():
+        if key not in allowed_fields:
+            raise AssertionError('Invalid field')
+    for field in allowed_fields:
+        if field not in user:
+            raise AssertionError('Field missing')
+    return user
