@@ -22,11 +22,11 @@ API cosumers
  4. Update personal information of users, if authenticated
 
 ## How to run the test
-1. Make the demo app running as background. For instruction, please read:https://github.com/xiaobixu/Flasky/blob/master/README.md
+1. Make the demo app running as background. For further instructions, please read: https://github.com/xiaobixu/Flasky/blob/master/README.md
 2. Have all the required liabraries/packages install, for example:
-> pip3 install -r requirements.txt
-3. to run the test:
-> robot test_run.py > reports.txt
+> pip3 install -r ../requirements.txt
+4. to run the test:
+> python3 test_run.py > reports.txt
 
 ## Test result
 The test report could be found in reports.txt
