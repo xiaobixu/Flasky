@@ -1,0 +1,30 @@
+This is API testing for:
+1. Register new users
+2. Review users registered in system
+3. If authenticated I can get personal information of users
+4. If authenticated I can update personal information of users
+****************************************************************************************************
+==================== TC-1 Register new users ====================
+Registering user_1 to system:
+The respond code is [201]: User user_1 is Created successfully.
+Registering user_2 to system:
+The respond code is [201]: User user_2 is Created successfully.
+==================== TC-2 Review users registered in system ====================
+Retrieving all the registered users...
+The respond code is [200]: SUCCESS
+Reviewing the registered users in the system...
+User user_1 has been registered in system successfully.
+User user_2 has been registered in system successfully.
+==================== TC-3 If authenticated I can get personal information of users ====================
+Getting user information of user_1...
+The respond code is [200]: SUCCESS
+The user information of user_1 is {'firstname': 'Jenny', 'lastname': 'Makinen', 'phone': '0407463737'}
+==================== TC-4 If authenticated I can update personal information of users ====================
+Updating user information for user_1
+The response code is [201]: Updated
+Getting user information of user_1...
+The respond code is [200]: SUCCESS
+The user information of user_1 is {'firstname': 'Jenni', 'lastname': 'Alto', 'phone': '040777777'}
+Update is successful
+****************************************************************************************************
+The API test is completed.
